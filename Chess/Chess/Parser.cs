@@ -15,7 +15,7 @@ namespace Chess
             string myFile = "TestFiles\\SimpleTest.txt";
             string moveFile = "TestFiles\\MoveTests.txt";
             string placeFile = "TestFiles\\PlaceTests.txt";
-            StreamReader inputReader = new StreamReader("TestFiles\\MoveTests.txt");
+            StreamReader inputReader = new StreamReader(myFile);
             while (!inputReader.EndOfStream)
             {
                 String line = inputReader.ReadLine();
@@ -31,16 +31,20 @@ namespace Chess
 
             if (Regex.IsMatch(line, placingPattern))
             {
-                Console.WriteLine(line);
+
             }
             else if (Regex.IsMatch(line, movingPattern))
             {
-                Console.WriteLine(line);
+
             }
             else if (Regex.IsMatch(line, doubleMovePattern))
             {
-                Console.WriteLine(line);
+
             }
+        }
+        public static void PrintInfo(string line, string message)
+        {
+            Console.WriteLine(line + " " + message);
         }
     }
 }

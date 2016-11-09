@@ -11,6 +11,7 @@ namespace Chess
     {
         static void Main(string[] args)
         {
+            Console.BufferHeight = 20000;
             Parser.ReadFile();
         }
     }
