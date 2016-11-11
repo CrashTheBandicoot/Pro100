@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Chess
 {
-    class Game
+    public class Game
     {
+        private Board chessBoard;
+        
     }
 }
