@@ -68,6 +68,10 @@ namespace Chess
                 string message = string.Concat("Move the piece at ", firstStartingRank, firstStartingFile, " to ", firstEndingRank, firstEndingFile, " and the piece at ", secondStartingRank, secondStartingFile, " to ", secondEndingRank, secondEndingFile);
                 PrintInfo(line, message);
             }
+            else if(Regex.IsMatch(line,"^(\\s)"))
+            {
+                PrintInfo(line, "This line is bad input.");
+            }
         }
         public static void PrintInfo(string line, string message)
         {
