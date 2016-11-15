@@ -10,17 +10,23 @@ namespace Chess
 {
     public static class Parser
     {
-        public static void ReadFile()
+        public static bool ReadFile(string fileName)
         {
-            string TestFile = "TestFiles\\SimpleTest.txt";
-            StreamReader inputReader = new StreamReader(TestFile);
-            while (!inputReader.EndOfStream)
-            {
-                String line = inputReader.ReadLine();
-                 ParseLine(line);
+            try {
+                StreamReader inputReader = new StreamReader(fileName);
+                while (!inputReader.EndOfStream)
+                {
+                    String line = inputReader.ReadLine();
+                    ParseLine(line);
+                }
+                inputReader.Close();
             }
-            inputReader.Close();
-        }
+            catch(FileNotFoundException e)
+            {
+                return false;
+            }
+            return true;
+       }
         public static void ParseLine(String line)
         {
             string placingPattern = "^([KQBNRP])([ld])([a-h, A-H][1-8])$";
