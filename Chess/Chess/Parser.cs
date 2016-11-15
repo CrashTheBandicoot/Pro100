@@ -58,7 +58,7 @@ namespace Chess
             else if (Regex.IsMatch(line, doubleMovePattern))
             {
                 char firstStartingRank = line.ElementAt(0);
-                char firstStartingFile= line.ElementAt(1);
+                char firstStartingFile = line.ElementAt(1);
                 char firstEndingRank = line.ElementAt(3);
                 char firstEndingFile = line.ElementAt(4);
                 char secondStartingRank = line.ElementAt(6);
@@ -68,7 +68,7 @@ namespace Chess
                 string message = string.Concat("Move the piece at ", firstStartingRank, firstStartingFile, " to ", firstEndingRank, firstEndingFile, " and the piece at ", secondStartingRank, secondStartingFile, " to ", secondEndingRank, secondEndingFile);
                 PrintInfo(line, message);
             }
-            else if(Regex.IsMatch(line,"^(\\s)"))
+            else if (Regex.IsMatch(line, "^(\\S)"))
             {
                 PrintInfo(line, "This line is bad input.");
             }
