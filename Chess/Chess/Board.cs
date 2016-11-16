@@ -10,5 +10,6 @@ namespace Chess
     {
         const int boardSize = 8;
         Space[,] BoardSpaces = new Space[boardSize,boardSize];
+
     }
 }

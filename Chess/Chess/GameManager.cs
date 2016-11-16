@@ -12,16 +12,23 @@ namespace Chess
         static void Main(string[] args)
         {
             Console.BufferHeight = 20000;
-            askinfForFile();
+            if(args.Length > 0)
+            {
+                Parser.ReadFile(args[0]);
+            }
+            else
+            {
+                askinfForFile();
+            }
         }
         static void askinfForFile()
         {
-            //string TestFile = "TestFiles\\SimpleTest.txt";
+            //string TestFile = "SimpleTest.txt";
             Console.WriteLine("Please enter the .txt file you would like to use.");
             string fileName = Console.ReadLine();
             while (!Parser.ReadFile(fileName))
             {
-                Console.WriteLine("That file does not exist in the Debug folder, please try again.");
+                Console.WriteLine("The file " + fileName + " does not exist in the Debug folder, please try again.");
                 fileName = Console.ReadLine();
             }
         }

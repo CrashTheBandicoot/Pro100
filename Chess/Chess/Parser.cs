@@ -23,6 +23,9 @@ namespace Chess
             }
             catch(FileNotFoundException e)
             {
+                Console.WriteLine("There was an error.\n");
+                Console.WriteLine(e.ToString());
+                Console.WriteLine("\n");
                 return false;
             }
             return true;
@@ -37,8 +40,8 @@ namespace Chess
             {
                 char piece = line.ElementAt(0);
                 char color = line.ElementAt(1);
-                char file = line.ElementAt(3);
                 char rank = line.ElementAt(2);
+                char file = line.ElementAt(3);
                 string pieceColor;
                 if (color.Equals('l'))
                 {
@@ -82,6 +85,10 @@ namespace Chess
         public static void PrintInfo(string line, string message)
         {
             Console.WriteLine(line + " " + message);
+        }
+        public static void PrintBoard()
+        {
+
         }
     }
 }
