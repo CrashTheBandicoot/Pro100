@@ -1,23 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace Chess
 {
-    public static class Parser
-    {
+    public class Parser
+    { 
+        ArrayList validLines;
         public static bool ReadFile(string fileName)
         {
+            ArrayList validLines = new ArrayList();
             try {
                 StreamReader inputReader = new StreamReader(fileName);
                 while (!inputReader.EndOfStream)
                 {
                     String line = inputReader.ReadLine();
-                    ParseLine(line);
+                    if (ParseLine(line))
+                    {
+                        validLines.Add(line);
+                    }
                 }
                 inputReader.Close();
             }
@@ -30,7 +34,7 @@ namespace Chess
             }
             return true;
        }
-        public static void ParseLine(String line)
+        public static bool ParseLine(String line)
         {
             string placingPattern = "^([KQBNRP])([ld])([a-h, A-H][1-8])$";
             string movingPattern = "^([a-h,A-H][1-8])\\s([a-h,A-H][1-8])$";
@@ -42,16 +46,7 @@ namespace Chess
                 char color = line.ElementAt(1);
                 char rank = line.ElementAt(2);
                 char file = line.ElementAt(3);
-                string pieceColor;
-                if (color.Equals('l'))
-                {
-                    pieceColor = "light";
-                }
-                else
-                {
-                    pieceColor = "dark";
-                }
-                Piece p = new Piece(piece, pieceColor);
+                Piece p = new Piece(piece, color);
                 string message = string.Concat("Place the ", p.GetColor(), " ", p.GetPieceType(), " at ", rank, file);
                 PrintInfo(line, message);
             }
@@ -80,15 +75,35 @@ namespace Chess
             else if (Regex.IsMatch(line, "^(\\S)"))
             {
                 PrintInfo(line, "This line is bad input.");
+                return false;
             }
+            return true;
         }
         public static void PrintInfo(string line, string message)
         {
             Console.WriteLine(line + " " + message);
         }
-        public static void PrintBoard()
+        public void PrintBoard(Board chessboard)
         {
-
+            for (int i = 0; i < 8; i++)
+            {
+                for(int j = 0; j < 8; j++)
+                {
+                    if (chessboard.getBoardSpace(i, j).GetPiece())
+                    {
+                        Console.WriteLine("|" + chessboard);
+                    }
+                    else
+                    {
+                        Console.WriteLine("|--");
+                    }
+                }
+                Console.WriteLine("|");
+            }
+        }
+        public ArrayList getValidLines()
+        {
+            return validLines;
         }
     }
 }

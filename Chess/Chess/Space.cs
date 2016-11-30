@@ -6,26 +6,28 @@ using System.Threading.Tasks;
 
 namespace Chess
 {
-    class Space
+    public class Space
     {
-        private string spaceColor;
-        private int spaceRank;
-        private int spaceFile;
-        bool hasPiece;
-        public Space(string color, int rank, int file, char type, string pieceColor)
+        private string color;
+        private Piece p;
+        private bool hasPiece = false;
+        public Space(string color)
         {
-            spaceColor = color;
-            spaceRank = rank;
-            spaceFile = file;
-            if(!type.Equals(null))
-            {
-                Piece p = new Piece(type, pieceColor);
-                hasPiece = true;
-            }
-            else
-            {
-                hasPiece = false;
-            }
+            this.color = color;
+        }
+        public Piece GetPiece()
+        {
+            return p;
+        }
+        public void AddPiece(char pieceType, char pieceColor)
+        {
+            p = new Piece(pieceType, pieceColor);
+            hasPiece = true;
+        }
+        public void RemovePiece()
+        {
+            p = null;
+            hasPiece = false;
         }
     }
 }

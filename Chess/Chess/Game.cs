@@ -9,6 +9,13 @@ namespace Chess
     public class Game
     {
         private Board chessBoard;
-        
+        public Game()
+        {
+            chessBoard = new Board();
+        }
+        public void UpdateGame(string[] placements)
+        {
+            chessBoard.SetPieces(placements);
+        }
     }
 }

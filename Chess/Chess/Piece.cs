@@ -6,13 +6,21 @@ using System.Threading.Tasks;
 
 namespace Chess
 {
-    class Piece
+    public class Piece
     {
         private TypeOfPiece pieceType;
         private string pieceColor;
-        public Piece(char type, string color)
+        public Piece(char type, char color)
         {
-            pieceColor = color;
+            switch (color)
+            {
+                case 'l':
+                    pieceColor = "Light";
+                    break;
+                case 'd':
+                    pieceColor = "Dark";
+                    break;
+            }
             switch (type)
             {
                 case 'K':
@@ -42,6 +50,54 @@ namespace Chess
         public string GetColor()
         {
             return pieceColor;
+        }
+        public void Move(TypeOfPiece type)
+        {
+            switch (type)
+            {
+                case TypeOfPiece.King:
+                    moveKing();
+                    break;
+                case TypeOfPiece.Queen:
+                    moveQueen();
+                    break;
+                case TypeOfPiece.Bishop:
+                    moveBishop();
+                    break;
+                case TypeOfPiece.Knight:
+                    moveKnight();
+                    break;
+                case TypeOfPiece.Rook:
+                    moveRook();
+                    break;
+                case TypeOfPiece.Pawn:
+                    movePawn();
+                    break;
+            }
+        }
+        private void moveKing()
+        {
+
+        }
+        private void moveQueen()
+        {
+
+        }
+        private void moveBishop()
+        {
+
+        }
+        private void moveKnight()
+        {
+
+        }
+        private void moveRook()
+        {
+
+        }
+        private void movePawn()
+        {
+
         }
     }
     public enum TypeOfPiece { King, Queen, Bishop, Knight, Rook, Pawn }

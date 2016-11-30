@@ -11,7 +11,7 @@ namespace Chess
     {
         static void Main(string[] args)
         {
-            Console.BufferHeight = 20000;
+            string[] validLines;
             if(args.Length > 0)
             {
                 Parser.ReadFile(args[0]);
@@ -20,6 +20,7 @@ namespace Chess
             {
                 askinfForFile();
             }
+//            Game chess = new Game(validLines);
         }
         static void askinfForFile()
         {
