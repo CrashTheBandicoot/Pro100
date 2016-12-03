@@ -29,5 +29,9 @@ namespace Chess
             p = null;
             hasPiece = false;
         }
+        public bool HasPiece()
+        {
+            return hasPiece;
+        }
     }
 }

@@ -11,18 +11,22 @@ namespace Chess
     {
         static void Main(string[] args)
         {
-            string[] validLines;
+            Parser p = new Parser();
             if(args.Length > 0)
             {
                 Parser.ReadFile(args[0]);
             }
             else
             {
-                askinfForFile();
+                askingForFile();
             }
-//            Game chess = new Game(validLines);
+            Game chess = new Game();
+            chess.PlacePieces(p.GetValidPlacements(),p.GetEnglishEquivalent());
+            chess.PlayGame();
+//            chess.PlayGame(p.GetValidMoves(),p.GetEnglishEquivalent(), p.GetValidPlacements().Count);
+//            chess.SquaresWithPieces();
         }
-        static void askinfForFile()
+        static void askingForFile()
         {
             //string TestFile = "SimpleTest.txt";
             Console.WriteLine("Please enter the .txt file you would like to use.");

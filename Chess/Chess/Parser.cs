@@ -2,25 +2,26 @@
 using System.Linq;
 using System.IO;
 using System.Text.RegularExpressions;
-using System.Collections.Generic;
 using System.Collections;
 
 namespace Chess
 {
     public class Parser
     { 
-        ArrayList validLines;
+        static ArrayList validPlacements = new ArrayList();
+        static ArrayList englishEquivalent = new ArrayList();
+        static ArrayList validMoves = new ArrayList();
         public static bool ReadFile(string fileName)
         {
-            ArrayList validLines = new ArrayList();
             try {
                 StreamReader inputReader = new StreamReader(fileName);
                 while (!inputReader.EndOfStream)
                 {
-                    String line = inputReader.ReadLine();
-                    if (ParseLine(line))
+                    string line = inputReader.ReadLine();
+                    string message;
+                    if (ParseLine(line, out message))
                     {
-                        validLines.Add(line);
+                        englishEquivalent.Add(message);
                     }
                 }
                 inputReader.Close();
@@ -34,12 +35,13 @@ namespace Chess
             }
             return true;
        }
-        public static bool ParseLine(String line)
+        public static bool ParseLine(String line, out String message)
         {
             string placingPattern = "^([KQBNRP])([ld])([a-h, A-H][1-8])$";
             string movingPattern = "^([a-h,A-H][1-8])\\s([a-h,A-H][1-8])$";
             string doubleMovePattern = "^([a-h,A-H][1-8])\\s([a-h,A-H][1-8])\\s([a-h,A-H][1-8])\\s([a-h,A-H][1-8])$";
 
+            message = "";
             if (Regex.IsMatch(line, placingPattern))
             {
                 char piece = line.ElementAt(0);
@@ -47,8 +49,9 @@ namespace Chess
                 char rank = line.ElementAt(2);
                 char file = line.ElementAt(3);
                 Piece p = new Piece(piece, color);
-                string message = string.Concat("Place the ", p.GetColor(), " ", p.GetPieceType(), " at ", rank, file);
-                PrintInfo(line, message);
+                message = string.Concat("Place the ", p.GetColor(), " ", p.GetPieceType(), " at ", rank, file, "\n");
+                validPlacements.Add(line);
+                return true;
             }
             else if (Regex.IsMatch(line, movingPattern))
             {
@@ -56,8 +59,9 @@ namespace Chess
                 char startingFile = line.ElementAt(1);
                 char endingRank = line.ElementAt(3);
                 char endingFile = line.ElementAt(4);
-                string message = string.Concat("Move the piece at ", startingRank, startingFile, " to ", endingRank, endingFile);
-                PrintInfo(line, message);
+                message = string.Concat("Move the piece at ", startingRank, startingFile, " to ", endingRank, endingFile, "\n");
+                validMoves.Add(line);
+                return true;
             }
             else if (Regex.IsMatch(line, doubleMovePattern))
             {
@@ -69,41 +73,57 @@ namespace Chess
                 char secondStartingFile = line.ElementAt(7);
                 char secondEndingRank = line.ElementAt(9);
                 char secondEndingFile = line.ElementAt(10);
-                string message = string.Concat("Move the piece at ", firstStartingRank, firstStartingFile, " to ", firstEndingRank, firstEndingFile, " and the piece at ", secondStartingRank, secondStartingFile, " to ", secondEndingRank, secondEndingFile);
-                PrintInfo(line, message);
+                message = string.Concat("Move the piece at ", firstStartingRank, firstStartingFile, " to ", firstEndingRank, firstEndingFile, " and the piece at ", secondStartingRank, secondStartingFile, " to ", secondEndingRank, secondEndingFile,"\n");
+                validMoves.Add(line);
+                return true;
             }
-            else if (Regex.IsMatch(line, "^(\\S)"))
+            else if (!Regex.IsMatch(line, "^($)"))
             {
-                PrintInfo(line, "This line is bad input.");
+                PrintInfo(line, "This line is invalid input.");
                 return false;
             }
-            return true;
+            return false;
         }
         public static void PrintInfo(string line, string message)
         {
             Console.WriteLine(line + " " + message);
         }
-        public void PrintBoard(Board chessboard)
+        public static void PrintBoard()
         {
+            Console.WriteLine("*|A |B |C |D |E |F |G |H |");
             for (int i = 0; i < 8; i++)
             {
-                for(int j = 0; j < 8; j++)
+
+                for (int j = 0; j < 8; j++)
                 {
-                    if (chessboard.getBoardSpace(i, j).GetPiece())
+                    if(j == 0)
                     {
-                        Console.WriteLine("|" + chessboard);
+                        Console.Write(i + 1);
+                    }
+                    if (Board.GetBoardSpace(i,j).HasPiece())
+                    {
+                        Console.Write("|" + Board.GetBoardSpace(i,j).GetPiece().GetPieceString());
                     }
                     else
                     {
-                        Console.WriteLine("|--");
+                        Console.Write("|--");
                     }
                 }
-                Console.WriteLine("|");
+                Console.Write("|\n");
             }
+            Console.WriteLine("\n");
         }
-        public ArrayList getValidLines()
+        public ArrayList GetValidPlacements()
         {
-            return validLines;
+            return validPlacements;
+        }
+        public ArrayList GetEnglishEquivalent()
+        {
+            return englishEquivalent;
+        }
+        public ArrayList GetValidMoves()
+        {
+            return validMoves;
         }
     }
 }
